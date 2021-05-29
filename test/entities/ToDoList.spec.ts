@@ -3,8 +3,8 @@ import {ToDoList} from "../../src/entities"
 import {User} from "../../src/entities";
 
 const notifyTwoItemsRemaining = jest.fn()
-    .mockImplementation(async function (user: User): Promise<void> {
-    })
+    .mockImplementation(async () => {
+    });
 
 describe("ToDoList entity", function () {
     const birthdate = new Date();
@@ -14,18 +14,20 @@ describe("ToDoList entity", function () {
         notifyTwoItemsRemaining
     }
 
-    const list = new ToDoList(User.build({
+    const user = User.build({
         name: "name",
         lastname: "lastname",
         mail: "mail@mail.mail",
         password: "123456789",
         birthdate
-    }).getValue(), notifier);
+    }).getValue();
+    const list = new ToDoList(user, notifier);
 
     const props = {
         name: "name",
         content: "content",
-        createdAt: new Date()
+        createdAt: new Date(),
+        owner: user
     };
     const item = Item.build(props).getValue();
 

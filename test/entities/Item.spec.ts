@@ -1,13 +1,22 @@
-import { Item } from "../../src/entities";
+import {Item, User} from "../../src/entities";
 
-describe("Item entity", function(){
+describe("Item entity", function () {
+    const validDate = new Date();
+    validDate.setFullYear(validDate.getFullYear() - 15);
     const props = {
         name: "name",
         content: "content",
-        createdAt: new Date()
+        createdAt: new Date(),
+        owner: User.build({
+            name: "toto",
+            lastname: "toto",
+            password: "tototototo",
+            mail: "toto@toto.com",
+            birthdate: validDate
+        }).getValue()
     };
 
-    it("should be valid", function(){
+    it("should be valid", function () {
         const res = Item.build(props);
 
         expect(res.isSuccess).toBe(true);
@@ -15,7 +24,7 @@ describe("Item entity", function(){
         expect(res.getValue()).toBeTruthy();
     })
 
-    it("should be invalid if name is empty", function(){
+    it("should be invalid if name is empty", function () {
         const res = Item.build({
             ...props,
             name: ""
@@ -25,7 +34,7 @@ describe("Item entity", function(){
         expect(res.error).toBe("Name too short");
     })
 
-    it("should be invalid if content is empty", function(){
+    it("should be invalid if content is empty", function () {
         const res = Item.build({
             ...props,
             content: ""
@@ -35,7 +44,7 @@ describe("Item entity", function(){
         expect(res.error).toBe("Invalid content");
     })
 
-    it("should be invalid if content is too long", function(){
+    it("should be invalid if content is too long", function () {
         const res = Item.build({
             ...props,
             content: "this is a testing string!".repeat(41)

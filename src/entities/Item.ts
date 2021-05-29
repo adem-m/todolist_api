@@ -1,16 +1,19 @@
 import {Result} from "../commons";
+import {User} from "./User";
 
 interface ItemProps {
     name: string,
     content: string,
-    createdAt: Date
+    createdAt: Date,
+    owner: User
 }
 
 export class Item {
     private constructor(
         public name: string,
         public content: string,
-        public createdAt: Date
+        public createdAt: Date,
+        public owner: User
     ) {
     }
 
@@ -34,7 +37,8 @@ export class Item {
         return Result.ok(new Item(
             props.name,
             props.content,
-            props.createdAt
+            props.createdAt,
+            props.owner
         ));
     }
 }
