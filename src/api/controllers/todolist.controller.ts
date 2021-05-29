@@ -12,9 +12,17 @@ export class ToDoListController {
             notifyTwoItemsRemaining: async () => {
             }
         });
-        if (toDoLists.insert(toDoList) !== undefined) {
+        if (!this.checkIfExists(mail) && toDoLists.insert(toDoList) !== undefined) {
             return toDoList;
         }
         return null;
+    }
+
+    checkIfExists(mail: string): boolean {
+        const lists = toDoLists.find() as unknown as ToDoList[];
+        const result = lists.filter(list => {
+            return list.owner.mail === mail
+        });
+        return result.length !== 0;
     }
 }
