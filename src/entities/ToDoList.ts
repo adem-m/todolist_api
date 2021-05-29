@@ -9,7 +9,7 @@ export class ToDoList {
     static readonly TIMEOUT = 30 * 60 * 1000; // in ms
     private items: Array<Item>;
 
-    constructor(private owner: User, private notifier: IEmailService){
+    constructor(public owner: User, private notifier: IEmailService){
         this.items = new Array<Item>();
     }
 

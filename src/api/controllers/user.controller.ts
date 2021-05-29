@@ -11,6 +11,9 @@ interface UserCreationProps {
 
 export class UserController {
     create(props: UserCreationProps): User | null {
+        if (this.getByMail(props.mail) !== null) {
+            return null;
+        }
         const user = User.build({
             name: props.name,
             lastname: props.lastname,
@@ -24,11 +27,11 @@ export class UserController {
         return null;
     }
 
-    getByMail(mail: string) {
-        const result = users.find({'mail': mail});
-        if (result.length !== 1) {
+    getByMail(mail: string): User | null {
+        const result = users.findOne({'mail': mail});
+        if (result === null) {
             return null;
         }
-        return result[0];
+        return result as unknown as User;
     }
 }

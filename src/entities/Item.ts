@@ -1,4 +1,4 @@
-import { Result } from "../commons";
+import {Result} from "../commons";
 
 interface ItemProps {
     name: string,
@@ -8,10 +8,11 @@ interface ItemProps {
 
 export class Item {
     private constructor(
-        private name: string,
-        private content: string,
-        private createdAt: Date
-    ){}
+        public name: string,
+        public content: string,
+        public createdAt: Date
+    ) {
+    }
 
     public getName(): string {
         return this.name;
@@ -22,11 +23,11 @@ export class Item {
     }
 
     public static build(props: ItemProps): Result<Item> {
-        if(props.name.length === 0){
+        if (props.name.length === 0) {
             return Result.ko<Item>("Name too short");
         }
 
-        if(props.content.length === 0 || props.content.length > 1000){
+        if (props.content.length === 0 || props.content.length > 1000) {
             return Result.ko<Item>("Invalid content");
         }
 
