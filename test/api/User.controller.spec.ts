@@ -50,4 +50,37 @@ describe("User controller", () => {
 
         expect(status).toBe(400);
     });
+
+    it("Should return true if user exists", async () => {
+        const init = {
+            method: "POST",
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(validUser)
+        };
+        await fetch(baseUrl, init);
+        let result: any = {};
+        await fetch(`${baseUrl}exists?mail=${validUser.mail}`)
+            .then(async response => {
+                await response.json().then(data => {
+                    result = data;
+                });
+            });
+        expect(result).toHaveProperty("exists");
+        expect(result?.exists).toBeTruthy();
+    });
+
+    it("Should return false if user does not exists", async () => {
+        let result: any = {};
+        await fetch(`${baseUrl}exists?mail=nonexistent@test.com`)
+            .then(async response => {
+                await response.json().then(data => {
+                    result = data;
+                });
+            });
+        expect(result).toHaveProperty("exists");
+        expect(result?.exists).toBeFalsy();
+    });
 });
