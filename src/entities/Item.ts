@@ -17,14 +17,6 @@ export class Item {
     ) {
     }
 
-    public getName(): string {
-        return this.name;
-    }
-
-    public getCreatedAt(): Date {
-        return this.createdAt;
-    }
-
     public static build(props: ItemProps): Result<Item> {
         if (props.name.length === 0) {
             return Result.ko<Item>("Name too short");
@@ -40,5 +32,13 @@ export class Item {
             props.createdAt,
             props.owner
         ));
+    }
+
+    public getName(): string {
+        return this.name;
+    }
+
+    public getCreatedAt(): Date {
+        return this.createdAt;
     }
 }

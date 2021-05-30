@@ -3,8 +3,8 @@ export class Result<T> {
     public error?: string;
     private value?: T;
 
-    private constructor(isSuccess: boolean, error?: string, value?: T){
-        if((isSuccess && error !== undefined) || !isSuccess && error === undefined) {
+    private constructor(isSuccess: boolean, error?: string, value?: T) {
+        if ((isSuccess && error !== undefined) || !isSuccess && error === undefined) {
 
             throw new Error("Cannot succeed and fail at the same time");
         }
@@ -16,21 +16,21 @@ export class Result<T> {
         Object.freeze(this);
     }
 
-    public getValue(): T {
-        if(!this.isSuccess){
-            throw new Error("No value to retrieve if failed");
-        }
-        if(this.value === undefined){
-            throw new Error("No value to retrieve");
-        }
-        return this.value;
-    }
-
     public static ok<V>(value: V): Result<V> {
         return new Result<V>(true, undefined, value);
     }
 
     public static ko<V>(error: string): Result<V> {
         return new Result<V>(false, error);
+    }
+
+    public getValue(): T {
+        if (!this.isSuccess) {
+            throw new Error("No value to retrieve if failed");
+        }
+        if (this.value === undefined) {
+            throw new Error("No value to retrieve");
+        }
+        return this.value;
     }
 }

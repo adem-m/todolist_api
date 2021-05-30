@@ -1,6 +1,4 @@
-import {Item} from "../../src/entities";
-import {ToDoList} from "../../src/entities"
-import {User} from "../../src/entities";
+import {Item, ToDoList, User} from "../../src/entities";
 
 const notifyTwoItemsRemaining = jest.fn()
     .mockImplementation(async () => {

@@ -1,10 +1,12 @@
 # Unit test project
 
 ## Pre-requisites
+
 NodeJs should be installed. \
 Check that npm is also installed.
 
 ## How to use
+
 ```
 git clone https://github.com/Mana-One/tests-unitaires-todolist.git
 

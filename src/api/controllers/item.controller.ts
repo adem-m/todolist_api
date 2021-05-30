@@ -9,6 +9,14 @@ interface ItemCreationProps {
     mail: string
 }
 
+interface CoreItem {
+    id: number,
+    name: string,
+    content: string,
+    createdAt: string,
+    owner: string
+}
+
 export class ItemController {
     create(props: ItemCreationProps): Item | null {
         const owner = new UserController().getByMail(props.mail);
@@ -28,5 +36,30 @@ export class ItemController {
             return item.getValue();
         }
         return null;
+    }
+
+    getAll(mail: string): CoreItem[] | null {
+        if (new UserController().getByMail(mail) === null || new ToDoListController().checkIfExists(mail) === null) {
+            return null;
+        }
+        const allItems = items.find();
+
+        const userItems = allItems.filter(item => {
+            return item.owner.mail === mail
+        });
+
+        return ItemController.formatGetAllResult(userItems);
+    }
+
+    private static formatGetAllResult(items: any[]): CoreItem[] {
+        return items.map(item => {
+            return {
+                id: item.$loki,
+                name: item.name,
+                content: item.content,
+                createdAt: item.createdAt,
+                owner: item.owner.mail
+            };
+        });
     }
 }
