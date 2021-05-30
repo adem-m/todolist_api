@@ -51,6 +51,19 @@ export class ItemController {
         return ItemController.formatGetAllResult(userItems);
     }
 
+    delete(mail: string, id: number): Item | null {
+        if (new UserController().getByMail(mail) === null || new ToDoListController().checkIfExists(mail) === null) {
+            return null;
+        }
+        const item = items.get(id);
+
+        if (item === null) {
+            return null;
+        }
+        items.remove(item);
+        return item as Item;
+    }
+
     private static formatGetAllResult(items: any[]): CoreItem[] {
         return items.map(item => {
             return {

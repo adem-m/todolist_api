@@ -32,4 +32,19 @@ router.route("/all")
         return response.json(items);
     });
 
+router.route("/:id")
+    .delete(async (request: Request, response: Response) => {
+        const mail = request.query.mail as string;
+        const id = request.params.id;
+        if (mail === undefined || isNaN(parseInt(id))) {
+            return response.sendStatus(400);
+        }
+        const result = new ItemController().delete(mail, parseInt(id));
+
+        if (result === null) {
+            return response.sendStatus(404);
+        }
+        return response.sendStatus(204);
+    });
+
 export default router;
