@@ -8,7 +8,6 @@ import {
 } from "../test.commons";
 
 describe("Todolist controller", () => {
-
     afterEach(async () => {
         await clearDatabase();
     });

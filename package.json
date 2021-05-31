@@ -28,7 +28,7 @@
     "build": "tsc && babel src -d bin --extensions .ts",
     "test": "npm run test:e",
     "test:verbose": "npm run test:e -- --verbose",
-    "test:e": "jest test"
+    "test:e": "jest test --runInBand"
   },
   "author": "",
   "license": "ISC"
