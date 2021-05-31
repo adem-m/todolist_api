@@ -1,5 +1,5 @@
 import {User} from "../../src/entities";
-import fetch from "node-fetch";
+import {sendGetRequest, sendPostRequest} from "./test.commons";
 
 describe("User controller", () => {
     const baseUrl = "http://localhost:3000/users/";
@@ -14,73 +14,27 @@ describe("User controller", () => {
     }).getValue();
 
     it("Should create a user when query is correct", async () => {
-        const init = {
-            method: "POST",
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(validUser)
-        };
-        let status = 0;
-        await fetch(baseUrl, init)
-            .then(response => {
-                status = response.status;
-            });
-
-        expect(status).toBe(201);
+        const response = await sendPostRequest(baseUrl, JSON.stringify(validUser));
+        expect(response.status).toBe(201);
     });
 
     it("Should not create a user when query is not correct", async () => {
         const invalidUser = {...validUser};
         invalidUser.password = "short";
-        const init = {
-            method: "POST",
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(invalidUser)
-        };
-        let status = 0;
-        await fetch(baseUrl, init)
-            .then(response => {
-                status = response.status;
-            });
-
-        expect(status).toBe(400);
+        const response = await sendPostRequest(baseUrl, JSON.stringify(invalidUser));
+        expect(response.status).toBe(400);
     });
 
     it("Should return true if user exists", async () => {
-        const init = {
-            method: "POST",
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(validUser)
-        };
-        await fetch(baseUrl, init);
-        let result: any = {};
-        await fetch(`${baseUrl}exists?mail=${validUser.mail}`)
-            .then(async response => {
-                await response.json().then(data => {
-                    result = data;
-                });
-            });
-        expect(result).toHaveProperty("exists");
-        expect(result?.exists).toBeTruthy();
+        await sendPostRequest(baseUrl, JSON.stringify(validUser));
+        const response = await sendGetRequest(`${baseUrl}exists?mail=${validUser.mail}`);
+        expect(response.body).toHaveProperty("exists");
+        expect(response.body?.exists).toBeTruthy();
     });
 
     it("Should return false if user does not exists", async () => {
-        let result: any = {};
-        await fetch(`${baseUrl}exists?mail=nonexistent@test.com`)
-            .then(async response => {
-                await response.json().then(data => {
-                    result = data;
-                });
-            });
-        expect(result).toHaveProperty("exists");
-        expect(result?.exists).toBeFalsy();
+        const response = await sendGetRequest(`${baseUrl}exists?mail=nonexistent@test.com`);
+        expect(response.body).toHaveProperty("exists");
+        expect(response.body?.exists).toBeFalsy();
     });
 });
