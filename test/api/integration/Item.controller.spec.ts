@@ -10,6 +10,8 @@ import {
     validUser
 } from "../test.commons";
 
+jest.setTimeout(10000);
+
 describe("Item controller", () => {
     beforeEach(async () => {
         await sendPostRequest(usersBaseUrl, JSON.stringify(validUser));

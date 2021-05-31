@@ -7,6 +7,8 @@ import {
     validUser
 } from "../test.commons";
 
+jest.setTimeout(10000);
+
 describe("Todolist controller", () => {
     afterEach(async () => {
         await clearDatabase();

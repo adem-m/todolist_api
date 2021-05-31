@@ -1,5 +1,7 @@
 import {clearDatabase, sendGetRequest, sendPostRequest, usersBaseUrl, validUser} from "../test.commons";
 
+jest.setTimeout(10000);
+
 describe("User controller", () => {
     afterEach(async () => {
         await clearDatabase();
