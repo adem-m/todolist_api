@@ -24,11 +24,13 @@
   },
   "scripts": {
     "start": "nodemon --exec ts-node src/api/index.ts",
-    "prebuild": "npm test && rimraf bin",
+    "prebuild": "npm run test:u && rimraf bin",
     "build": "tsc && babel src -d bin --extensions .ts",
-    "test": "npm run test:e",
-    "test:verbose": "npm run test:e -- --verbose",
-    "test:e": "jest test --runInBand"
+    "test": "npm run test:u && npm run test:i && npm run test:e2e",
+    "test:verbose": "jest test -i --verbose",
+    "test:u": "jest test/entities -i",
+    "test:i": "jest test/api/integration -i",
+    "test:e2e": "jest test/api/e2e"
   },
   "author": "",
   "license": "ISC"
